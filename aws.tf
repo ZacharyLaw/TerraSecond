@@ -30,7 +30,11 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "ubuntu" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  tags          = {Name = var.instance_name}
+  tags          = { Name = var.instance_name }
+}
+resource "aws_ec2_instance_state" "ubuntu" {
+  instance_id = aws_instance.ubuntu.id
+  state       = "stopped"
 }
 output "instance_ami" {value = aws_instance.ubuntu.ami}
 output "instance_arn" {value = aws_instance.ubuntu.arn}
