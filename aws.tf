@@ -1,3 +1,7 @@
+import {
+  to = aws_ami.ubuntu
+  id = "ami-0e8dc287e52855138"
+}
 terraform {
   cloud {
     organization = "zac-aws"
@@ -18,14 +22,6 @@ provider "aws"{
   #shared_credentials_files = ["/Users/tf_user/.aws/creds"]
   #profile                  = "default"
 }
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  filter {
-    name   = "name"
-    values = ["(SupportedImages) - Wordpress - Ubuntu 20 x86_64 *"]
-  }
-}
-
 resource "aws_vpc" "zachary-terraform" {
   cidr_block = "10.0.0.0/16"
     tags = {Name = "[Zachary] Terraform 10.0/16"}
