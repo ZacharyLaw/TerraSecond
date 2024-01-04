@@ -21,10 +21,11 @@ provider "aws"{
 data "aws_ami" "ubuntu" {
   most_recent = true
   filter {
-    name   = "name"
-    values = ["(SupportedImages) - Wordpress - Ubuntu 20*"]
+    name   = "image-id"
+    values = ["ami-0e8dc287e52855138"]
   }
 }
+
 resource "aws_vpc" "zachary-terraform" {
   cidr_block = "10.0.0.0/16"
     tags = {Name = "[Zachary] Terraform 10.0/16"}
