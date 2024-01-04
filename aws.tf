@@ -23,7 +23,7 @@ data "aws_ami" "ubuntu" {
   owners = ["679593333241"] #aws-marketplace
   filter {
     name   = "name"
-    values = ["*Wordpress - Ubuntu 20*"]
+    values = ["(SupportedImages) - Wordpress - Ubuntu 20*"]
   }
 }
 resource "aws_vpc" "zachary-terraform" {
