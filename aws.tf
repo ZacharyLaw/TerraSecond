@@ -19,18 +19,33 @@ provider "aws"{
   #shared_credentials_files = ["/Users/tf_user/.aws/creds"]
   #profile                  = "default"
 }
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.0.0.0/16"
+    tags = {Name = "[Zachary] Terraform 10.0/16"}
+
+}
+resource "aws_security_group" "my_sg" {
+  name        = "[Zachary] Terraform SG"
+  vpc_id      = aws_vpc.my_vpc.id
+}
+resource "aws_subnet" "my_subnet" {
+  vpc_id     = aws_vpc.my_vpc.id
+  cidr_block = "10.0.0.0/24"
+  tags = {Name = "[Zachary] Terraform Subnet"}
+}
+
 resource "aws_instance" "ubuntu" {
   ami           = "ami-0098c6e7b556afbc2"
   instance_type = var.instance_type
   tags          = { Name = var.instance_name }
+  vpc_security_group_ids = [aws_security_group.my_sg.id]
+  subnet_id     = aws_subnet.my_subnet.id
+
 }
-resource "aws_vpc" "zachary-terraform" {
-  cidr_block = "10.0.0.0/16"
-    tags = {Name = "[Zachary] Terraform 10.0/16"}
-}
+
 resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
-  state       = "stopped"
+  state       = "running"#stopped
 }
 
 output "instance_ami" {value = aws_instance.ubuntu.ami}
