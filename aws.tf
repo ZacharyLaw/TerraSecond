@@ -20,7 +20,7 @@ provider "aws"{
   #profile                  = "default"
 }
 import {
-  to = aws_ami.ubuntu
+  to = aws_instance.ubuntu
   id = "ami-0e8dc287e52855138"
 }
 resource "aws_vpc" "zachary-terraform" {
