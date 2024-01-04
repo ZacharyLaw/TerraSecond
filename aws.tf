@@ -20,7 +20,7 @@ provider "aws"{
 }
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["aws-marketplace"] #Wordpress
+  owners = ["679593333241"] #aws-marketplace
   filter {
     name   = "name"
     values = ["*Wordpress - Ubuntu 20*"]
