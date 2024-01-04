@@ -19,17 +19,14 @@ provider "aws"{
   #shared_credentials_files = ["/Users/tf_user/.aws/creds"]
   #profile                  = "default"
 }
-import {
-  to = aws_instance.ubuntu
-  id = "ami-0e8dc287e52855138"
+resource "aws_instance" "ubuntu" {
+  ami           = "ami-0e8dc287e52855138"
+  instance_type = var.instance_type
+  tags          = { Name = var.instance_name }
 }
 resource "aws_vpc" "zachary-terraform" {
   cidr_block = "10.0.0.0/16"
     tags = {Name = "[Zachary] Terraform 10.0/16"}
-}
-resource "aws_instance" "ubuntu" {
-  instance_type = var.instance_type
-  tags          = {Name = var.instance_name}
 }
 resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
