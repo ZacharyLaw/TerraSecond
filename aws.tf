@@ -21,8 +21,8 @@ provider "aws"{
 data "aws_ami" "ubuntu" {
   most_recent = true
   filter {
-    name   = "image-id"
-    values = ["ami-0e8dc287e52855138"]
+    name   = "name"
+    values = ["(SupportedImages) - Wordpress - Ubuntu 20 x86_64 - 20231205 - 20231226-d8a532f9-55a3-4a13-af20-2835bb5025ef"]
   }
 }
 
