@@ -1,7 +1,4 @@
-import {
-  to = aws_ami.ubuntu
-  id = "ami-0e8dc287e52855138"
-}
+
 terraform {
   cloud {
     organization = "zac-aws"
@@ -21,6 +18,10 @@ provider "aws"{
   region  = "us-east-1"
   #shared_credentials_files = ["/Users/tf_user/.aws/creds"]
   #profile                  = "default"
+}
+import {
+  to = aws_ami.ubuntu
+  id = "ami-0e8dc287e52855138"
 }
 resource "aws_vpc" "zachary-terraform" {
   cidr_block = "10.0.0.0/16"
