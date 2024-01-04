@@ -20,11 +20,11 @@ provider "aws"{
 }
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["679593333241"] #aws-marketplace
   filter {
     name   = "name"
     values = ["(SupportedImages) - Wordpress - Ubuntu 20*"]
   }
+  owners = ["679593333241"] #aws-marketplace
 }
 resource "aws_vpc" "zachary-terraform" {
   cidr_block = "10.0.0.0/16"
