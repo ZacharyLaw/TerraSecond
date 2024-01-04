@@ -11,27 +11,24 @@ terraform {
   }
   required_version = "~> 1.2"
 }
-variable "instance_type" {default = "t2.nano"}
-variable "instance_name" {default = "[Zachary] Terraform"}
+variable "instance_type" {default = "t2.micro"}
+variable "instance_name" {default = "[Zachary] Terraform Wordpress"}
 provider "aws"{
   region  = "us-east-1"
-  //shared_credentials_files = ["/Users/tf_user/.aws/creds"]
-  //profile                  = "default"
+  #shared_credentials_files = ["/Users/tf_user/.aws/creds"]
+  #profile                  = "default"
 }
 data "aws_ami" "ubuntu" {
   most_recent = true
+  owners = ["Symetricore"] #Wordpress
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["Wordpress powered by Symetricore"]
   }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-  owners = ["099720109477"] # Canonical
 }
 resource "aws_vpc" "zachary-terraform" {
   cidr_block = "10.0.0.0/16"
+    tags = {Name = "[Zachary] Terraform 10.0/16"}
 }
 resource "aws_instance" "ubuntu" {
   ami           = data.aws_ami.ubuntu.id
@@ -42,10 +39,9 @@ resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
   state       = "stopped"
 }
-/*
-resource "aws_instance_state" "ubuntu" {
-  instance_id = aws_instance.ubuntu.id
-  state       = "stopped"
-}*/
+
 output "instance_ami" {value = aws_instance.ubuntu.ami}
 output "instance_arn" {value = aws_instance.ubuntu.arn}
+output "instance_private_ip" {value = aws_instance.ubuntu.private_ip}
+output "instance_public_ip" {value = aws_instance.ubuntu.public_ip}
+
