@@ -20,7 +20,7 @@ provider "aws"{
   #profile                  = "default"
 }
 resource "aws_instance" "ubuntu" {
-  ami           = "ami-0adad19b6ca4f8345"
+  ami           = "ami-0098c6e7b556afbc2"
   instance_type = var.instance_type
   tags          = { Name = var.instance_name }
 }
