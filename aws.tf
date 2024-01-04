@@ -38,9 +38,9 @@ resource "aws_instance" "ubuntu" {
   ami           = "ami-0098c6e7b556afbc2"
   instance_type = var.instance_type
   tags          = { Name = var.instance_name }
-  vpc_security_group_ids = []
+  #vpc_security_group_ids = []
   subnet_id              = ""
-  #vpc_security_group_ids = [aws_security_group.my_sg.id]
+  vpc_security_group_ids = [aws_security_group.my_sg.id]
   #subnet_id     = aws_subnet.my_subnet.id
 
 }
