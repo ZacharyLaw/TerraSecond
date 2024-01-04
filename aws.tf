@@ -23,7 +23,7 @@ data "aws_ami" "ubuntu" {
   owners = ["aws-marketplace"] #Wordpress
   filter {
     name   = "name"
-    values = ["Wordpress powered by Symetricore"]
+    values = ["*Wordpress - Ubuntu 20*"]
   }
 }
 resource "aws_vpc" "zachary-terraform" {
