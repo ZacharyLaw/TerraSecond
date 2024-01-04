@@ -20,7 +20,7 @@ provider "aws"{
 }
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["Symetricore"] #Wordpress
+  owners = ["aws-marketplace"] #Wordpress
   filter {
     name   = "name"
     values = ["Wordpress powered by Symetricore"]
