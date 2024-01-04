@@ -13,7 +13,7 @@ terraform {
   required_version = "~> 1.2"
 }
 variable "instance_type" {default = "t2.nano"}
-variable "instance_name" {default = "[Zachary] Terraform Wordpress"}
+variable "instance_name" {default = "[Zachary] Terraform FusionHub"}
 provider "aws"{
   region  = "us-east-1"
   #shared_credentials_files = ["/Users/tf_user/.aws/creds"]
@@ -47,7 +47,7 @@ resource "aws_instance" "ubuntu" {
 
 resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
-  state       = "running"#stopped
+  state       = "stopped"#stopped
 }
 
 output "instance_ami" {value = aws_instance.ubuntu.ami}
