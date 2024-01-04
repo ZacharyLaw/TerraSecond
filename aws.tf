@@ -28,7 +28,6 @@ resource "aws_vpc" "zachary-terraform" {
     tags = {Name = "[Zachary] Terraform 10.0/16"}
 }
 resource "aws_instance" "ubuntu" {
-  ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   tags          = {Name = var.instance_name}
 }
