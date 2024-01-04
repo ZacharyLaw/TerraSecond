@@ -1,7 +1,7 @@
 terraform {
   cloud {
     organization = "zac-aws"
-    workspaces {name = "self-made"}
+    workspaces {name = "learn-terraform-cloud"}
   }
   required_providers {
     aws = {
@@ -9,7 +9,7 @@ terraform {
       version = "~> 5.31.0"
     }
   }
-  //required_version = "~> 1.2"
+  required_version = "~> 1.2"
 }
 variable "instance_type" {default = "t2.nano"}
 variable "instance_name" {default = "[Zachary] Terraform"}
