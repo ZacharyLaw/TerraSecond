@@ -12,7 +12,7 @@ terraform {
   }
   required_version = "~> 1.2"
 }
-variable "instance_type" {default = "t2.micro"}
+variable "instance_type" {default = "t2.nano"}
 variable "instance_name" {default = "[Zachary] Terraform Wordpress"}
 provider "aws"{
   region  = "us-east-1"
@@ -38,6 +38,8 @@ resource "aws_instance" "ubuntu" {
   ami           = "ami-0098c6e7b556afbc2"
   instance_type = var.instance_type
   tags          = { Name = var.instance_name }
+  vpc_security_group_ids = []
+  subnet_id              = ""
   #vpc_security_group_ids = [aws_security_group.my_sg.id]
   #subnet_id     = aws_subnet.my_subnet.id
 
