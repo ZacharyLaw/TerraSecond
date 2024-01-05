@@ -65,6 +65,33 @@ resource "aws_instance" "ubuntu" {
 
 }
 
+
+resource "aws_instance" "example_instance" {
+  ami           = "ami-032346ab877c418af"
+  instance_type = "t2.micro"
+  tags          = { Name = "[Zachary] Terraform user_data" }
+
+  user_data = <<-EOF
+    #!/bin/bash
+    apt-get update
+    apt-get install -y apache2
+
+    echo "<!DOCTYPE html>
+    <html>
+    <head>
+      <title>Simple Apache Page</title>
+    </head>
+    <body>
+      <h1>Welcome to the Simple Apache Page!</h1>
+      <p>This is a basic static page served by Apache.</p>
+    </body>
+    </html>" > /var/www/html/index.html
+
+    systemctl enable apache2
+    systemctl start apache2
+  EOF
+}
+
 resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
   state       = "stopped"#stopped
