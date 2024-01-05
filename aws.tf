@@ -62,6 +62,12 @@ resource "aws_instance" "ubuntu" {
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.my_sg.id]
   subnet_id              = aws_subnet.my_subnet.id
+
+  user_data = <<-EOF
+            sudo shutdown +30 
+            #30min
+            EOF
+
   lifecycle {
   create_before_destroy = true
   ignore_changes = [instance_type, key_name]
@@ -76,33 +82,21 @@ resource "aws_instance" "example_instance" {
   vpc_security_group_ids = [aws_security_group.my_sg.id]
   subnet_id              = aws_subnet.my_subnet.id
   associate_public_ip_address = true
-
   user_data = <<-EOF
     #!/bin/bash
     yum update -y
     service httpd start
     chkconfig httpd on
-  EOF
 
+    sudo shutdown +30 
+    #30min
+  EOF
   lifecycle {
   create_before_destroy = true
   ignore_changes = [instance_type, key_name]
   prevent_destroy = false
 }
 }
-
-resource "aws_cloudwatch_event_rule" "onehour" {
-  name        = "stop_after_1_hour"
-  description = "Stop instances after 30 minute"
-  schedule_expression = "rate(30 minute)"
-  tags        = { Name = "[Zachary] Terraform stop after 1h" }
-}
-resource "aws_cloudwatch_event_target" "example" {
-  rule      = aws_cloudwatch_event_rule.onehour.name
-  target_id = aws_instance.example_instance.id
-  arn       = aws_instance.example_instance.arn
-}
-
 resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
   state       = "stopped"#stopped
