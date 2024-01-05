@@ -70,25 +70,12 @@ resource "aws_instance" "example_instance" {
   ami           = "ami-0c7217cdde317cfec"
   instance_type = "t2.micro"
   tags          = { Name = "[Zachary] Terraform user_data" }
-
+  vpc_security_group_ids = [aws_security_group.my_sg.id]
   user_data = <<-EOF
     #!/bin/bash
-    apt-get update
-    apt-get install -y apache2
-
-    echo "<!DOCTYPE html>
-    <html>
-    <head>
-      <title>Simple Apache Page</title>
-    </head>
-    <body>
-      <h1>Welcome to the Simple Apache Page!</h1>
-      <p>This is a basic static page served by Apache.</p>
-    </body>
-    </html>" > /var/www/html/index.html
-
-    systemctl enable apache2
-    systemctl start apache2
+    yum update -y
+    service httpd start
+    chkconfig httpd on
   EOF
 }
 
