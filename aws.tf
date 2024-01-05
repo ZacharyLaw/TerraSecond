@@ -15,7 +15,7 @@ terraform {
 variable "instance_type" {default = "t2.nano"}
 variable "instance_name" {default = "[Zachary] Terraform FusionHub"}
 provider "aws"{
-  region  = "us-east-1"
+  region  = "us-east-1" //N. Virgina
   #shared_credentials_files = ["/Users/tf_user/.aws/creds"]
   #profile                  = "default"
 }
@@ -67,7 +67,7 @@ resource "aws_instance" "ubuntu" {
 
 
 resource "aws_instance" "example_instance" {
-  ami           = "ami-032346ab877c418af"
+  ami           = "ami-0c7217cdde317cfec"
   instance_type = "t2.micro"
   tags          = { Name = "[Zachary] Terraform user_data" }
 
