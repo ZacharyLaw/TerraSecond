@@ -60,7 +60,6 @@ resource "aws_instance" "ubuntu" {
   tags                   = { Name = "[Zachary] Terraform fusionhub" }
   ami                    = "ami-0098c6e7b556afbc2"
   instance_type          = var.instance_type
-  tags                   = { Name = var.instance_name }
   vpc_security_group_ids = [aws_security_group.my_sg.id]
   subnet_id              = aws_subnet.my_subnet.id
   lifecycle {
@@ -69,7 +68,7 @@ resource "aws_instance" "ubuntu" {
   prevent_destroy = false
   create_action {
   action        = "stop"
-  timeout       = "1h"
+  timeout       = "1m"
   run_once      = true
   skip_destroy  = true
   }
