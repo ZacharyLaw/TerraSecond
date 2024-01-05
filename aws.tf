@@ -57,11 +57,23 @@ resource "aws_subnet" "my_subnet" {
 }
 
 resource "aws_instance" "ubuntu" {
+  tags                   = { Name = "[Zachary] Terraform fusionhub" }
   ami                    = "ami-0098c6e7b556afbc2"
   instance_type          = var.instance_type
   tags                   = { Name = var.instance_name }
   vpc_security_group_ids = [aws_security_group.my_sg.id]
   subnet_id              = aws_subnet.my_subnet.id
+  lifecycle {
+  create_before_destroy = true
+  ignore_changes = [instance_type, key_name]
+  prevent_destroy = false
+  create_action {
+  action        = "stop"
+  timeout       = "1h"
+  run_once      = true
+  skip_destroy  = true
+  }
+}
 }
 
 resource "aws_instance" "example_instance" {
@@ -70,6 +82,7 @@ resource "aws_instance" "example_instance" {
   tags                   = { Name = "[Zachary] Terraform user_data" }
   vpc_security_group_ids = [aws_security_group.my_sg.id]
   subnet_id              = aws_subnet.my_subnet.id
+  associate_public_ip_address = true
 
   user_data = <<-EOF
     #!/bin/bash
@@ -77,6 +90,18 @@ resource "aws_instance" "example_instance" {
     service httpd start
     chkconfig httpd on
   EOF
+
+  lifecycle {
+  create_before_destroy = true
+  ignore_changes = [instance_type, key_name]
+  prevent_destroy = false
+  create_action {
+  action        = "stop"
+  timeout       = "1m"
+  run_once      = true
+  skip_destroy  = true
+  }
+}
 }
 
 resource "aws_ec2_instance_state" "ubuntu" {
