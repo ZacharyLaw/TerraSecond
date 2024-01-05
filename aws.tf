@@ -106,7 +106,10 @@ resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
   state       = "stopped"#stopped
 }
-
+resource "aws_ec2_instance_state" "example_instance" {
+  instance_id = aws_instance.ubuntu.id
+  state       = "stopped"#stopped
+}
 output "instance_ami" {value = aws_instance.ubuntu.ami}
 output "instance_arn" {value = aws_instance.ubuntu.arn}
 output "instance_private_ip" {value = aws_instance.ubuntu.private_ip}
