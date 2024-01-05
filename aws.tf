@@ -27,7 +27,8 @@ resource "aws_vpc" "my_vpc" {
 resource "aws_security_group" "my_sg" {
   name        = "[Zachary] Terraform SG"
   vpc_id      = aws_vpc.my_vpc.id
-    ingress {
+
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -44,33 +45,32 @@ resource "aws_security_group" "my_sg" {
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"//any protocol
+    protocol    = "-1" // any protocol
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 resource "aws_subnet" "my_subnet" {
   vpc_id     = aws_vpc.my_vpc.id
   cidr_block = "10.0.0.0/24"
-  tags = {Name = "[Zachary] Terraform Subnet"}
+  tags       = { Name = "[Zachary] Terraform Subnet" }
 }
 
 resource "aws_instance" "ubuntu" {
-  ami           = "ami-0098c6e7b556afbc2"
-  instance_type = var.instance_type
-  tags          = { Name = var.instance_name }
-  #vpc_security_group_ids = []
-  subnet_id              = ""
+  ami                    = "ami-0098c6e7b556afbc2"
+  instance_type          = var.instance_type
+  tags                   = { Name = var.instance_name }
   vpc_security_group_ids = [aws_security_group.my_sg.id]
-  #subnet_id     = aws_subnet.my_subnet.id
-
+  subnet_id              = aws_subnet.my_subnet.id
 }
 
-
 resource "aws_instance" "example_instance" {
-  ami           = "ami-0c7217cdde317cfec"
-  instance_type = "t2.micro"
-  tags          = { Name = "[Zachary] Terraform user_data" }
+  ami                    = "ami-0c7217cdde317cfec"
+  instance_type          = "t2.micro"
+  tags                   = { Name = "[Zachary] Terraform user_data" }
   vpc_security_group_ids = [aws_security_group.my_sg.id]
+  subnet_id              = aws_subnet.my_subnet.id
+
   user_data = <<-EOF
     #!/bin/bash
     yum update -y
