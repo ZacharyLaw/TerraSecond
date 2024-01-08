@@ -16,12 +16,12 @@ provider "aws"{
 }
 resource "aws_vpc" "my_vpc" {
   enable_dns_hostnames = true
-  cidr_block = "10.0.0.0/16"
-  tags = {Name = "[Zachary] Terraform 10.0/16"}
+  cidr_block = "10.100.100.0/16"
+  tags = {Name = "[Zachary] Terraform 10.100/16"}
 }
 resource "aws_subnet" "my_subnet" {
   vpc_id     = aws_vpc.my_vpc.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.100.100.0/24"
   tags       = { Name = "[Zachary] Terraform Subnet" }
 }
 resource "aws_network_interface" "aws_network_interface-1fd5b0a9" {
