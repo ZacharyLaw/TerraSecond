@@ -26,7 +26,7 @@ resource "aws_subnet" "my_subnet" {
 }
 resource "aws_network_interface" "aws_network_interface-1fd5b0a9" {
   subnet_id = aws_subnet.my_subnet.id
-  private_ips = ["172.16.10.100",]
+  private_ips = ["10.100.100.100",]
 }
 resource "aws_instance" "ubuntu" {
   ami                    = "ami-0c7217cdde317cfec"
