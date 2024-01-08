@@ -47,6 +47,18 @@ resource "aws_security_group" "my_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+    ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1" // any protocol
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -75,7 +87,7 @@ resource "aws_instance" "ubuntu" {
 
   lifecycle {
   create_before_destroy = true
-  ignore_changes = [instance_type, key_name]
+  ignore_changes = [tags, instance_type, key_name]
   prevent_destroy = false
 }
 }
@@ -98,7 +110,7 @@ resource "aws_instance" "example_instance" {
   EOF
   lifecycle {
   create_before_destroy = true
-  ignore_changes = [instance_type, key_name]
+  ignore_changes = [tags, instance_type, key_name]
   prevent_destroy = false
 }
 }
