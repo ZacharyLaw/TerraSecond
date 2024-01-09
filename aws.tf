@@ -15,8 +15,7 @@ provider "aws"{
   region  = "us-east-1" //N. Virgina
 }
 resource "aws_security_group" "web_server" {
-  name = var.server_name
-
+  name = "server_name"
   ingress {
     protocol    = "tcp"
     from_port   = 22
@@ -38,16 +37,11 @@ resource "aws_security_group" "web_server" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_vpc" "my_vpc" {
-  enable_dns_hostnames = true
-  cidr_block = "10.100.100.0/16"
-  tags = {Name = "[Zachary] Terraform 10.100/16"}
-}
 resource "aws_instance" "ubuntu" {
   ami                    = "ami-0c7217cdde317cfec"
   instance_type          = "t2.micro"
   tags                   = { Name = "[Zachary] Terraform user_data" }
-  vpc_security_group_ids = [aws_security_group.my_sg.id]
+  vpc_security_group_ids = [aws_security_group.web_server.id]
   associate_public_ip_address = true
   user_data = <<-EOF
     #!/bin/bash
@@ -65,7 +59,7 @@ resource "aws_instance" "ubuntu" {
 }
 resource "aws_key_pair" "deployer" {
   key_name   = "ssh_key_name"
-  public_key = file("C:/Users/zacharylaw/.ssh/id_rsa.pub")
+  public_key = file("C:/Users/zacharylaw/Desktop/ZacharyPep_SSH")
 }
 resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
