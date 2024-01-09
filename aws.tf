@@ -42,6 +42,7 @@ resource "aws_instance" "ubuntu" {
   instance_type          = "t2.micro"
   tags                   = { Name = "[Zachary] Terraform user_data" }
   vpc_security_group_ids = [aws_security_group.web_server.id]
+  key_name               = "ssh_key_name"
   associate_public_ip_address = true
   user_data = <<-EOF
     #!/bin/bash
@@ -57,10 +58,18 @@ resource "aws_instance" "ubuntu" {
   prevent_destroy = false
   }
 }
+data "aws_instance" "ubuntu"{
+  instance_id            = "i-04dbce604be09c0b1"
+}
+
 resource "aws_key_pair" "deployer" {
   key_name   = "ssh_key_name"
-  public_key = file("C:/Users/zacharylaw/Desktop/ZacharyPep_SSH")
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJtbb0ZfrEuilXFXzKEcx0PVusOyoczGIr7Sq3wHfwz eddsa-key-20231005"
 }
+#import {
+#  to = aws_key_pair.deployer
+#  id = "key-0ddfc1aacaa9cec0d"
+#}
 resource "aws_ec2_instance_state" "ubuntu" {
   instance_id = aws_instance.ubuntu.id
   state       = "running"#stopped running
